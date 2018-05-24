@@ -12,7 +12,7 @@
 ]
 
 function generateCard(card){
-  return `<li class="card"> <i class="fa ${card}"></i></li>`;
+  return `<li class="card" data-card="${card}"> <i class="fa ${card}"></i></li>`;
 }
 
  //let cardList = [];
