@@ -1,8 +1,22 @@
 /*
  * Create a list that holds all of your cards
  */
- let cardList = [];
- cardList = document.querySelectorAll('.card');
+ const cards = ['fa-diamond', 'fa-diamond',
+                'fa-paper-plane-o', 'fa-paper-plane-o',
+                'fa-anchor', 'fa-anchor',
+                'fa-bolt', 'fa-bolt',
+                'fa-cube', 'fa-cube',
+                'fa-leaf', 'fa-leaf',
+                'fa-bicycle', 'fa-bicycle',
+                'fa-bomb', 'fa-bomb'
+]
+
+function generateCard(card){
+  return `<li class="card"> <i class="fa ${card}"></i></li>`;
+}
+
+ //let cardList = [];
+ //cardList = document.querySelectorAll('.card');
 
 /*
  * Display the cards on the page
@@ -10,7 +24,14 @@
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
-
+ function initGame(){
+   const deck = document.querySelector('.deck');
+   const cardHTML = shuffle(cards).map(function(card){
+     return generateCard(card);
+   });
+   deck.innerHTML = cardHTML.join('');
+ }
+initGame();
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -45,6 +66,8 @@ clickedCard.forEach(function(card){
     if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')){
       openCards.push(card);
       card.classList.add('open', 'show');
+      //if cards match add class match and remove classes open & show
+
       if (openCards.length===2) {
         setTimeout(function(){
           openCards.forEach(function(card) {
