@@ -60,7 +60,7 @@ function shuffle(array) {
  */
 const clickedCard = document.querySelectorAll('.card');
 let openCards = [];
-
+let moves=0;
 clickedCard.forEach(function(card){
   card.addEventListener('click', function(event) {
     if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')){
@@ -69,6 +69,10 @@ clickedCard.forEach(function(card){
       //if cards match add class match and remove classes open & show
 
       if (openCards.length===2) {
+        if(openCards[0].dataset.card === openCards[1].dataset.card) {
+          openCards[0].classList.add('match');
+          openCards[1].classList.add('match');
+        }
         setTimeout(function(){
           openCards.forEach(function(card) {
             card.classList.remove('open', 'show')
@@ -77,5 +81,35 @@ clickedCard.forEach(function(card){
         }, 1000)
       };
     }
+    moves=moves+1;
+    document.querySelector('.moves').innerText = moves;
   });
 });
+
+// restart button
+const restart = document.querySelector('.restart');
+restart.addEventListener('click', function(){
+  location.reload(true);
+ });
+
+ //timer
+ let seconds = 0;
+ let minutes = 0;
+function countSeconds() {
+   seconds = seconds + 1;
+   if (seconds < 10) {
+     document.getElementById('seconds').innerText = `0${seconds}`;
+   } else if ((seconds>9) && (seconds<60)){
+     document.getElementById('seconds').innerText = seconds;
+   } else if (seconds>59) {
+       minutes = seconds / 60;
+       let secondsCount = seconds % 60;
+       document.getElementById('minutes').innerText = Math.floor(minutes);
+       if (secondsCount<10){
+       document.getElementById('seconds').innerText = "0"+Math.floor(secondsCount);
+     } else {
+       document.getElementById('seconds').innerText = Math.floor(secondsCount);
+     }
+   }
+}
+setInterval(countSeconds, 1000);
