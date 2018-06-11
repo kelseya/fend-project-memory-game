@@ -11,6 +11,7 @@
                 'fa-bomb', 'fa-bomb'
 ]
 
+
 function generateCard(card){
   return `<li class="card" data-card="${card}"> <i class="fa ${card}"></i></li>`;
 }
@@ -61,6 +62,7 @@ function shuffle(array) {
 const clickedCard = document.querySelectorAll('.card');
 let openCards = [];
 let moves=0;
+let matchedCards = [];
 clickedCard.forEach(function(card){
   card.addEventListener('click', function(event) {
     if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')){
@@ -72,6 +74,12 @@ clickedCard.forEach(function(card){
         if(openCards[0].dataset.card === openCards[1].dataset.card) {
           openCards[0].classList.add('match');
           openCards[1].classList.add('match');
+          openCards[0].classList.remove('open', 'show');
+          openCards[1].classList.remove('open', 'show');
+          matchedCards.push(openCards);
+          if (matchedCards.length ===8) {
+            gameWon();
+          }
         }
         setTimeout(function(){
           openCards.forEach(function(card) {
@@ -83,6 +91,15 @@ clickedCard.forEach(function(card){
     }
     moves=moves+1;
     document.querySelector('.moves').innerText = moves;
+    const stars = document.querySelectorAll('ul.stars li');
+    const starList = document.querySelector('ul.stars')
+    if (moves === 20) {
+      starList.removeChild(stars[0]);
+    } else if (moves === 30) {
+      starList.removeChild(stars[1]);
+    } else if (moves === 40) {
+      starList.remove();
+    }
   });
 });
 
@@ -93,8 +110,8 @@ restart.addEventListener('click', function(){
  });
 
  //timer
- let seconds = 0;
- let minutes = 0;
+let seconds = 0;
+let minutes = 0;
 function countSeconds() {
    seconds = seconds + 1;
    if (seconds < 10) {
@@ -113,3 +130,31 @@ function countSeconds() {
    }
 }
 setInterval(countSeconds, 1000);
+
+//star counter
+// let moves = document.querySelector('.moves').innerText;
+ //let stars = document.querySelectorAll('ul.stars li');
+// function starCounter(){
+//   let starList = document.querySelector('ul.stars')
+//   if (moves == 20) {
+//     starList.removeChild(stars[0])
+//   } else if (moves == 30) {
+//     starList.removeChild(stars[1])
+//   } else if (moves == 40) {
+//     starList.removeChild(stars[2])
+//   }
+// }
+//
+// starCounter();
+// once all cards are matched pop-up
+
+if (matchedCards.length === 8){
+    gameWon;
+}
+
+function gameWon() {
+  const r = confirm(`Congratulations!\nYour time was ${minutes.innerText}:${seconds.innerText}\nWould You Like to Play Again?`);
+  if (r==true) {
+    location.reload(true);
+  }
+}
