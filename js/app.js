@@ -16,9 +16,6 @@ function generateCard(card){
   return `<li class="card" data-card="${card}"> <i class="fa ${card}"></i></li>`;
 }
 
- //let cardList = [];
- //cardList = document.querySelectorAll('.card');
-
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -68,8 +65,8 @@ clickedCard.forEach(function(card){
     if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')){
       openCards.push(card);
       card.classList.add('open', 'show');
-      //if cards match add class match and remove classes open & show
 
+      //if cards match add class match and remove classes open & show
       if (openCards.length===2) {
         if(openCards[0].dataset.card === openCards[1].dataset.card) {
           openCards[0].classList.add('match');
@@ -89,8 +86,11 @@ clickedCard.forEach(function(card){
         }, 1000)
       };
     }
+    //move counter
     moves=moves+1;
     document.querySelector('.moves').innerText = moves;
+
+    //star counter
     const stars = document.querySelectorAll('ul.stars li');
     const starList = document.querySelector('ul.stars')
     if (moves === 20) {
@@ -131,30 +131,20 @@ function countSeconds() {
 }
 setInterval(countSeconds, 1000);
 
-//star counter
-// let moves = document.querySelector('.moves').innerText;
- //let stars = document.querySelectorAll('ul.stars li');
-// function starCounter(){
-//   let starList = document.querySelector('ul.stars')
-//   if (moves == 20) {
-//     starList.removeChild(stars[0])
-//   } else if (moves == 30) {
-//     starList.removeChild(stars[1])
-//   } else if (moves == 40) {
-//     starList.removeChild(stars[2])
-//   }
-// }
-//
-// starCounter();
-// once all cards are matched pop-up
-
-if (matchedCards.length === 8){
-    gameWon;
-}
 
 function gameWon() {
-  const r = confirm(`Congratulations!\nYour time was ${minutes.innerText}:${seconds.innerText}\nWould You Like to Play Again?`);
-  if (r==true) {
-    location.reload(true);
+  const modal = document.querySelector(".modal");
+  modal.style.display="block";
+  const congratsText = document.getElementById("congratsText");
+  let time = document.querySelector(".timer").innerText;
+  let score = document.querySelector('.stars').childElementCount;
+  congratsText.textContent = `Congratulations! Your time was: ${time}. Your score was: ${score} stars. \n Would you like to play again?`;
+  let replayGameModalButton = document.querySelector('#replayGameModal');
+  replayGameModalButton.onclick = function(){
+    location.reload(true)
+  }
+  let closeModalButton = document.querySelector('#closeModal');
+  closeModalButton.onclick = function(){
+     modal.style.display = "none";
   }
 }
