@@ -129,8 +129,8 @@ function countSeconds() {
      }
    }
 }
-setInterval(countSeconds, 1000);
 
+setInterval(countSeconds, 1000);
 
 function gameWon() {
   const modal = document.querySelector(".modal");
