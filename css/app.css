@@ -150,4 +150,5 @@ h1 {
     float: left;
     font-size: 18px;
     font-weight: bold;
+    border: 2px solid black; 
 }
