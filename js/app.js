@@ -1,6 +1,9 @@
 /*
  * Create a list that holds all of your cards
  */
+ /*The card array, initGame function, and parts of the clickedCard forEach
+ function use material from Mike Wales webinar
+ https://www.youtube.com/watch?v=_rUH-sEs68Y*/
  const cards = ['fa-diamond', 'fa-diamond',
                 'fa-paper-plane-o', 'fa-paper-plane-o',
                 'fa-anchor', 'fa-anchor',
@@ -62,6 +65,7 @@ let moves=0;
 let matchedCards = [];
 clickedCard.forEach(function(card){
   card.addEventListener('click', function(event) {
+    timeRunning = true;
     if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')){
       openCards.push(card);
       card.classList.add('open', 'show');
@@ -112,7 +116,9 @@ restart.addEventListener('click', function(){
  //timer
 let seconds = 0;
 let minutes = 0;
+let timeRunning = false;
 function countSeconds() {
+  if(timeRunning){
    seconds = seconds + 1;
    if (seconds < 10) {
      document.getElementById('seconds').innerText = `0${seconds}`;
@@ -128,10 +134,13 @@ function countSeconds() {
        document.getElementById('seconds').innerText = Math.floor(secondsCount);
      }
    }
+ }
 }
 
-setInterval(countSeconds, 1000);
+setInterval(countSeconds, 1000)
 
+
+//modal that pops up once the game is won to ask if the user would like to play again
 function gameWon() {
   const modal = document.querySelector(".modal");
   modal.style.display="block";
@@ -147,4 +156,5 @@ function gameWon() {
   closeModalButton.onclick = function(){
      modal.style.display = "none";
   }
+  timeRunning = false;
 }
