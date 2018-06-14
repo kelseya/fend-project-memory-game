@@ -48,7 +48,6 @@ function shuffle(array) {
     return array;
 }
 
-
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -61,27 +60,35 @@ function shuffle(array) {
  */
 const clickedCard = document.querySelectorAll('.card');
 let openCards = [];
-let moves=0;
+let moves = 0;
 let matchedCards = [];
 clickedCard.forEach(function(card){
   card.addEventListener('click', function(event) {
+
+    // timeRunning is set to true with the first click so that the timer starts
     timeRunning = true;
+
+    // checks to see if the card clicked is open or already matched, if the card isn't this opens the card
     if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')){
       openCards.push(card);
       card.classList.add('open', 'show');
 
-      //if cards match add class match and remove classes open & show
+      // if 2 cards match adds class match and removes classes open & show
       if (openCards.length===2) {
-        if(openCards[0].dataset.card === openCards[1].dataset.card) {
+        if (openCards[0].dataset.card === openCards[1].dataset.card) {
           openCards[0].classList.add('match');
           openCards[1].classList.add('match');
           openCards[0].classList.remove('open', 'show');
           openCards[1].classList.remove('open', 'show');
           matchedCards.push(openCards);
+
+          // this checks to see if 8 sets of cards are matched to end game
           if (matchedCards.length ===8) {
             gameWon();
           }
         }
+
+        // gives user 1 second to see clicked cards if they do not match
         setTimeout(function(){
           openCards.forEach(function(card) {
             card.classList.remove('open', 'show')
@@ -90,6 +97,7 @@ clickedCard.forEach(function(card){
         }, 1000)
       };
     }
+
     //move counter
     moves=moves+1;
     document.querySelector('.moves').innerText = moves;
@@ -136,7 +144,6 @@ function countSeconds() {
    }
  }
 }
-
 setInterval(countSeconds, 1000)
 
 
